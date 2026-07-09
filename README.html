@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>营山轨道交通 - 连接城市，便捷出行</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 全局样式 (保留原样) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+        
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+            --success-color: #2ecc71;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            margin-left: 10px;
+        }
+        
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 0;
+        }
+        
+        nav ul li a:hover {
+            color: #85c1e9;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #85c1e9;
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        /* 主要内容区域 */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid var(--primary-color);
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: transparent;
+            color: white;
+            border-color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: transparent;
+            color: white;
+            border-color: white;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+        }
+        
+        /* 线路信息 */
+        .line-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 25px;
+        }
+        
+        .line-card {
+            flex: 1 1 calc(33.333% - 25px);
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .line-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .line-header {
+            color: white;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .line-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        
+        .line-content {
+            padding: 25px;
+        }
+        
+        .line-content ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .line-content li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .line-content li i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .line-content li:last-child {
+            border-bottom: none;
+        }
+        
+        /* 线路颜色定义 */
+        .line-color-1 { background-color: #1e90ff; }
+        .line-color-2 { background-color: #ffd700; }
+        .line-color-3 { background-color: #800080; }
+        .line-color-4 { background-color: #32cd32; }
+        .line-color-5 { background-color: #9b3d96; }
+        .line-color-7 { background-color: #00CED1; }
+        .line-color-s1 { background-color: #191970; }
+        .line-color-s5 { background-color: #ff8c00; }
+        
+        /* 票价信息 */
+        .pricing-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .pricing-table th, .pricing-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .pricing-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .pricing-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .pricing-table tr:hover {
+            background-color: #f0f8ff;
+        }
+        
+        /* 网络地图 */
+        .network-map {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .map-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .map-container img {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        /* 新闻部分 */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .news-content {
+            padding: 25px;
+        }
+        
+        .news-date {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .news-date i {
+            margin-right: 5px;
+            color: var(--secondary-color);
+        }
+        
+        .news-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .news-tag {
+            display: inline-block;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        
+        /* 联系方式 */
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .contact-details {
+            flex: 1 1 300px;
+        }
+        
+        .contact-details h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+        
+        .contact-details p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-details i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+            width: 20px;
+            text-align: center;
+        }
+        
+        .contact-form {
+            flex: 1 1 300px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1 1 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .footer-column ul li a i {
+            margin-right: 8px;
+            width: 16px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        /* Toast 提示样式 */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            z-index: 9999;
+            white-space: nowrap;
+            max-width: 90vw;
+            white-space: normal;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
+            pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+            opacity: 0;
+            visibility: hidden;
+            font-family: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+        
+        .toast-message.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) scale(1);
+        }
+        
+        @media (max-width: 768px) {
+            .toast-message {
+                font-size: 14px;
+                padding: 10px 20px;
+                bottom: 20px;
+                white-space: normal;
+                width: auto;
+            }
+        }
+        
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .line-card {
+                flex: 1 1 calc(50% - 25px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            nav ul li {
+                margin: 5px 10px;
+            }
+            .line-card {
+                flex: 1 1 100%;
+            }
+            .hero h2 {
+                font-size: 32px;
+            }
+            .hero p {
+                font-size: 18px;
+            }
+            section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">≤</div>
+                    <h1>营山轨道交通</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#home"><i class="fas fa-home"></i> 首页</a></li>
+                        <li><a href="#lines"><i class="fas fa-subway"></i> 线路信息</a></li>
+                        <li><a href="#pricing"><i class="fas fa-ticket-alt"></i> 票价信息</a></li>
+                        <li><a href="#map"><i class="fas fa-map"></i> 网络地图</a></li>
+                        <li><a href="#news"><i class="far fa-newspaper"></i> 新闻动态</a></li>
+                        <li><a href="#contact"><i class="fas fa-phone-alt"></i> 联系我们</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main>
+        <section class="hero" id="home">
+            <div class="container">
+                <h2>营山轨道交通 - 连接城市，便捷出行</h2>
+                <p>营山轨道交通系统致力于为市民提供安全、高效、便捷的出行服务。目前已开通运营8条线路，覆盖城市主要区域。</p>
+                <a href="#lines" class="btn">查看线路信息</a>
+                <a href="#map" class="btn btn-secondary">查看网络地图</a>
+            </div>
+        </section>
+
+        <!-- 线路信息 -->
+        <section id="lines">
+            <div class="container">
+                <h2 class="section-title">线路信息</h2>
+                <div class="line-cards">
+                    <!-- 1号线 -->
+                    <div class="line-card">
+                        <div class="line-header line-color-1">
+                            <div class="line-number">1</div>
+                            <h3>1号线</h3>
+                        </div>
+                        <div class="line-content">
+                            <p><strong><i class="far fa-clock"></i> 运营时间：</strong>06:00 - 23:30</p>
+                            <p><strong><i class="fas fa-road"></i> 全程里程：</strong>23.6公里</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> 车站数量：</strong>12座</p>
+                            <p><strong><i class="fas fa-star"></i> 主要站点：</strong></p>
+                            <ul>
+                                <li><i class="fas fa-train"></i> 华西医院</li>
+                                <li><i class="fas fa-train"></i> 化育中学</li>
+                                <li><i class="fas fa-train"></i> 营山火车站</li>
+                                <li><i class="fas fa-train"></i> 体育公园</li>
+                                <li><i class="fas fa-train"></i> 营山西客站</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 2号线 -->
+                    <div class="line-card">
+                        <div class="line-header line-color-2">
+                            <div class="line-number">2</div>
+                            <h3>2号线</h3>
+                        </div>
+                        <div class="line-content">
+                            <p><strong><i class="far fa-clock"></i> 运营时间：</strong>06:30 - 23:30</p>
+                            <p><strong><i class="fas fa-road"></i> 全程里程：</strong>26.4公里</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> 车站数量：</strong>11座</p>
+                            <p><strong><i class="fas fa-star"></i> 主要站点：</strong></p>
+                            <ul>
+                                <li><i class="fas fa-train"></i> 白塔公园东</li>
+                                <li><i class="fas fa-train"></i> 芙蓉水镇</li>
+                                <li><i class="fas fa-train"></i> 圣桦时代广场</li>
+                                <li><i class="fas fa-train"></i> 体育公园</li>
+                                <li><i class="fas fa-train"></i> 营山火车站</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 3号线 -->
+                    <div class="line-card">
+                        <div class="line-header line-color-3">
+                            <div class="line-number">3</div>
+                            <h3>3号线</h3>
+                        </div>
+                        <div class="line-content">
+                            <p><strong><i class="far fa-clock"></i> 运营时间：</strong>06:30 - 22:30</p>
+                            <p><strong><i class="fas fa-road"></i> 全程里程：</strong>12.5公里</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> 车站数量：</strong>8座</p>
+                            <p><strong><i class="fas fa-star"></i> 主要站点：</strong></p>
+                            <ul>
+                                <li><i class="fas fa-train"></i> 小桥中学</li>
+                                <li><i class="fas fa-train"></i> 营山中学</li>
+                                <li><i class="fas fa-train"></i> 化育中学</li>
+                                <li><i class="fas fa-train"></i> 营山火车站</li>
+                                <li><i class="fas fa-train"></i> 体育公园</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 4号线 -->
+                    <div class="line-card">
+                        <div class="line-header line-color-4">
+                            <div class="line-number">4</div>
+                            <h3>4号线</h3>
+                        </div>
+                        <div class="line-content">
+                            <p><strong><i class="far fa-clock"></i> 运营时间：</strong>06:00 - 23:30</p>
+                            <p><strong><i class="fas fa-road"></i> 全程里程：</strong>49.6公里</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> 车站数量：</strong>7座</p>
+                            <p><strong><i class="fas fa-star"></i> 主要站点：</strong></p>
+                            <ul>
+                                <li><i class="fas fa-train"></i> 望龙湖森林公园</li>
+                                <li><i class="fas fa-train"></i> 营山火车站</li>
+                                <li><i class="fas fa-train"></i> 白塔公园东</li>
+                                <li><i class="fas fa-train"></i> 清水湖国家湿地公园</li>
+                                <li><i class="fas fa-train"></i> 工业区</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 5号线 -->
+                    <div class="line-card">
+                        <div class="line-header line-color-5">
+                            <div class="line-number">5</div>
+                            <h3>5号线</h3>
+                        </div>
+                        <div class="line-content">
+                            <p><strong><i class="far fa-clock"></i> 运营时间：</strong>06:30 - 23:30</p>
+                            <p><strong><i class="fas fa-road"></i> 全程里程：</strong>86.3公里</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> 车站数量：</strong>5座</p>
+                            <p><strong><i class="fas fa-star"></i> 主要站点：</strong></p>
+                            <ul>
+                                <li><i class="fas fa-train"></i> 白塔公园东</li>
+                                <li><i class="fas fa-train"></i> 太蓬山国家森林公园</li>
+                                <li><i class="fas fa-train"></i> 法院</li>
+                                <li><i class="fas fa-train"></i> 营山审计局</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 7号线 -->
+                    <div class="line-card">
+                        <div class="line-header line-color-7">
+                            <div class="line-number">7</div>
+                            <h3>7号线</h3>
+                        </div>
+                        <div class="line-content">
+                            <p><strong><i class="far fa-clock"></i> 运营时间：</strong>06:00 - 23:20</p>
+                            <p><strong><i class="fas fa-road"></i> 全程里程：</strong>14.2公里</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> 车站数量：</strong>7座</p>
+                            <p><strong><i class="fas fa-star"></i> 主要站点：</strong></p>
+                            <ul>
+                                <li><i class="fas fa-train"></i> 复兴桥</li>
+                                <li><i class="fas fa-train"></i> 县中医院</li>
+                                <li><i class="fas fa-train"></i> 芙蓉水镇</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- S1小桥线 -->
+                    <div class="line-card">
+                        <div class="line-header line-color-s1">
+                            <div class="line-number">S1</div>
+                            <h3>S1小桥线</h3>
+                        </div>
+                        <div class="line-content">
+                            <p><strong><i class="far fa-clock"></i> 运营时间：</strong>06:30 - 22:45</p>
+                            <p><strong><i class="fas fa-road"></i> 全程里程：</strong>22.7公里</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> 车站数量：</strong>5座</p>
+                            <p><strong><i class="fas fa-star"></i> 主要站点：</strong></p>
+                            <ul>
+                                <li><i class="fas fa-train"></i> 小桥天伟中学</li>
+                                <li><i class="fas fa-train"></i> 骆市</li>
+                                <li><i class="fas fa-train"></i> 华西医院</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- S5高坪机场线 -->
+                    <div class="line-card">
+                        <div class="line-header line-color-s5">
+                            <div class="line-number">S5</div>
+                            <h3>S5高坪机场线</h3>
+                        </div>
+                        <div class="line-content">
+                            <p><strong><i class="far fa-clock"></i> 运营时间：</strong>07:00 - 22:30</p>
+                            <p><strong><i class="fas fa-road"></i> 全程里程：</strong>59.2公里</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> 车站数量：</strong>5座</p>
+                            <p><strong><i class="fas fa-star"></i> 主要站点：</strong></p>
+                            <ul>
+                                <li><i class="fas fa-train"></i> 蓬安站</li>
+                                <li><i class="fas fa-train"></i> 高坪机场</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 票价信息 -->
+        <section id="pricing">
+            <div class="container">
+                <h2 class="section-title">票价信息</h2>
+                <div class="pricing-container">
+                    <p style="text-align: center; margin-bottom: 20px;">营山轨道交通采用里程分段计价制，具体票价如下：</p>
+                    <table class="pricing-table">
+                        <thead><tr><th>里程范围(公里)</th><th>单程票价(元)</th><th>优惠人群</th></tr></thead>
+                        <tbody>
+                            <tr><td>0-3</td><td>2</td><td>60岁以上老人免费</td></tr>
+                            <tr><td>3-10</td><td>每公里1元，不足1公里按1公里计算</td><td>学生卡半价，60岁以上老人免费</td></tr>
+                            <tr><td>10-25</td><td>每3公里1元，不足3公里按3公里计算</td><td>学生卡半价，60岁以上老人免费</td></tr>
+                            <tr><td>>25</td><td>每5公里1元，不足5公里按5公里计算</td><td>学生卡半价，60岁以上老人免费</td></tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: 20px; text-align: center; color: #666;">注：营山轨道交通支持白塔行储值卡、白塔行交通联合卡、银联闪付、二维码乘车等多种购票方式。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 网络地图 -->
+        <section id="map">
+            <div class="container">
+                <h2 class="section-title">网络地图</h2>
+                <div class="map-container">
+                    <img src="map.png" alt="营山轨道交通网络地图">
+                </div>
+                <div class="network-map">
+                    <p style="margin-top: 20px; text-align: center;">营山轨道交通网络覆盖城市主要区域，连接重要交通枢纽、商业中心和居民区。</p>
+                    <a href="map.png" class="btn" style="margin-top: 20px;" download="map.png"><i class="fas fa-download"></i> 下载高清地图</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 新闻动态 -->
+        <section id="news">
+            <div class="container">
+                <h2 class="section-title">新闻动态</h2>
+                <div class="news-grid">
+                    <div class="news-card"><div class="news-content"><div class="news-date"><i class="far fa-calendar-alt"></i> 2026年6月12日</div><span class="news-tag">线路消息</span><h3 class="news-title">营山轨道交通9号线正式开工</h3><p>营山轨道交通9号线于2026年6月12日正式开始修建，预计2027年1月建成通车。</p></div></div>
+                    <div class="news-card"><div class="news-content"><div class="news-date"><i class="far fa-calendar-alt"></i> 2026年6月15日</div><span class="news-tag">运营公告</span><h3 class="news-title">营山轨道交通部分站点进站口暂时关闭</h3><p>由于9号线正在施工，营山轨道交通部分站点进站口暂时关闭，带来的不便敬请谅解！</p></div></div>
+                    <div class="news-card"><div class="news-content"><div class="news-date"><i class="far fa-calendar-alt"></i> 2026年6月15日</div><span class="news-tag">运营公告</span><h3 class="news-title">端午节运营时间与价格调整通知</h3><p>营山轨道交通在端午节期间（2026年6月19日至21日）将延长运营时间至次日00:30，且票价打八折。</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系我们 -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">联系我们</h2>
+                <div class="contact-info">
+                    <div class="contact-details"><h3>营山轨道交通集团有限公司</h3><p>注:若邮箱无法收到回复，请检查是否将营山轨道交通邮箱拉入白名单</p><p><i class="fas fa-map-marker-alt"></i> <strong>地址：</strong>营山县一环路东二段228号</p><p><i class="fas fa-phone-alt"></i> <strong>客服热线：</strong>0817-8446233</p><p><i class="far fa-clock"></i> <strong>服务时间：</strong>每日 07:00 - 22:00</p><p><i class="far fa-envelope"></i> <strong>邮箱：</strong>yingshanmetro@foxmail.com</p><p><i class="fab fa-weixin"></i> <strong>微信公众号：</strong>营山轨道交通</p><p><i class="fab fa-weibo"></i> <strong>微博：</strong>@营山轨道交通</p><div class="social-links"><a href="#"><i class="fab fa-weixin"></i></a><a href="#"><i class="fab fa-weibo"></i></a><a href="#"><i class="fab fa-qq"></i></a><a href="#"><i class="fab fa-tiktok"></i></a></div></div>
+                    <div class="contact-form"><h3>留言反馈</h3><form><div class="form-group"><label for="name">姓名</label><input type="text" id="name" required></div><div class="form-group"><label for="email">邮箱</label><input type="email" id="email" required></div><div class="form-group"><label for="subject">主题</label><select id="subject"><option value="">请选择主题</option><option value="suggestion">建议</option><option value="complaint">投诉</option><option value="praise">表扬</option><option value="inquiry">咨询</option></select></div><div class="form-group"><label for="message">留言内容</label><textarea id="message" rows="5" required></textarea></div><button type="submit" class="btn" style="width: 100%;"><i class="fas fa-paper-plane"></i> 提交留言</button></form></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column"><h3>关于我们</h3><ul><li><a href="#"><i class="fas fa-chevron-right"></i> 公司简介</a></li><li><a href="#"><i class="fas fa-chevron-right"></i> 发展历程</a></li><li><a href="#"><i class="fas fa-chevron-right"></i> 企业文化</a></li><li><a href="#"><i class="fas fa-chevron-right"></i> 招贤纳士</a></li></ul></div>
+                <div class="footer-column"><h3>乘客服务</h3><ul><li><a href="#"><i class="fas fa-chevron-right"></i> 乘车指南</a></li><li><a href="#"><i class="fas fa-chevron-right"></i> 失物招领</a></li><li><a href="#"><i class="fas fa-chevron-right"></i> 无障碍服务</a></li><li><a href="#"><i class="fas fa-chevron-right"></i> 常见问题</a></li></ul></div>
+                <div class="footer-column"><h3>相关链接</h3>
+                    <ul>
+                        <!-- 四个链接改为复制 + toast，不再直接跳转 -->
+                        <li><a class="copy-gov-link" data-url="https://nanchong.gov.cn" href="javascript:void(0);"><i class="fas fa-chevron-right"></i> 南充市政府</a></li>
+                        <li><a class="copy-gov-link" data-url="https://nanchong.gov.cn" href="javascript:void(0);"><i class="fas fa-chevron-right"></i> 南充公交集团</a></li>
+                        <li><a class="copy-gov-link" data-url="https://nanchong.gov.cn" href="javascript:void(0);"><i class="fas fa-chevron-right"></i> 南充交通管理局</a></li>
+                        <li><a class="copy-gov-link" data-url="https://nanchong.gov.cn" href="javascript:void(0);"><i class="fas fa-chevron-right"></i> 南充城市发展规划</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright"><p>&copy; 2025 营山轨道交通集团有限公司 版权所有 | 设计制作：营山轨道交通运营有限公司</p></div>
+        </div>
+    </footer>
+
+    <!-- Toast 容器 -->
+    <div id="customToast" class="toast-message">链接已复制，请打开浏览器查看</div>
+
+    <script>
+        (function() {
+            // 获取所有需要复制链接的元素
+            const copyLinks = document.querySelectorAll('.copy-gov-link');
+            const toastEl = document.getElementById('customToast');
+            
+            // 显示toast的函数
+            function showToast(message, duration = 2500) {
+                if (!toastEl) return;
+                toastEl.textContent = message || '链接已复制，请打开浏览器查看';
+                toastEl.classList.add('show');
+                setTimeout(() => {
+                    toastEl.classList.remove('show');
+                    // 恢复默认提示文本防止残留
+                    setTimeout(() => {
+                        if (toastEl.textContent !== '链接已复制，请打开浏览器查看') {
+                            toastEl.textContent = '链接已复制，请打开浏览器查看';
+                        }
+                    }, 300);
+                }, duration);
+            }
+            
+            // 复制文本到剪贴板的通用方法
+            async function copyToClipboard(text, successMsg) {
+                // 现代 clipboard API
+                if (navigator.clipboard && window.isSecureContext) {
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        showToast(successMsg);
+                        return true;
+                    } catch (err) {
+                        console.warn('Clipboard API failed:', err);
+                        return fallbackCopy(text, successMsg);
+                    }
+                } else {
+                    return fallbackCopy(text, successMsg);
+                }
+            }
+            
+            // 降级方案 (textarea)
+            function fallbackCopy(text, successMsg) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.top = '-9999px';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                textarea.setSelectionRange(0, text.length);
+                let success = false;
+                try {
+                    success = document.execCommand('copy');
+                } catch (err) {
+                    console.error('Fallback copy error:', err);
+                }
+                document.body.removeChild(textarea);
+                if (success) {
+                    showToast(successMsg);
+                } else {
+                    showToast('复制失败，请手动复制链接: ' + text, 3500);
+                }
+                return success;
+            }
+            
+            // 绑定点击事件
+            if (copyLinks.length) {
+                const targetUrl = 'https://nanchong.gov.cn';
+                const toastMessage = '链接已复制: ' + targetUrl + ' 请打开浏览器查看';
+                copyLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        copyToClipboard(targetUrl, toastMessage);
+                    });
+                });
+            }
+            
+            // 可选：处理联系方式中提交按钮的简单提醒 (保留原有交互)
+            const contactForm = document.querySelector('.contact-form form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('感谢您的留言，我们会尽快处理。（演示模式）');
+                    this.reset();
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
